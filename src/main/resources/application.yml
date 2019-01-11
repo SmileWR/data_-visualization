@@ -1,0 +1,44 @@
+server:
+  port: 8866
+
+spring:
+  profiles:
+    active: dev
+  ## notice :two springboot project deploy(部署）in same server
+  jmx:
+    default-domain: springbootEcharts
+  datasource:
+    name: ghcms
+  #主数据源，默认配置
+    url: jdbc:mysql://localhost:3306/ghcms?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password:
+
+    driver-class-name: com.mysql.jdbc.Driver
+  thymeleaf:
+    # 模板模式 LEGACYHTML5
+    mode: HTML5
+    # 这个开发配置为false，避免改了模板还要重启服务器
+    cache: false
+    # ######下面的这些可不用配置#######
+    # 这个是配置模板路径的，默认就是templates
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+    # 检查模板位置
+    check-template-location: true
+    servlet:
+      content-type: text/html
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.data.entity
+
+#pagehelper分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+

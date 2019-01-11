@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.data.dao.GoodsDao">
+  <resultMap id="BaseResultMap" type="com.example.data.entity.Goods">
+    <result column="ID" jdbcType="INTEGER" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="BUY_PRICE" jdbcType="INTEGER" property="buyPrice" />
+    <result column="SEL_PRICE" jdbcType="INTEGER" property="selPrice" />
+    <result column="SUPPLIER" jdbcType="INTEGER" property="supplier" />
+    <result column="STORE" jdbcType="INTEGER" property="store" />
+    <result column="TYPE" jdbcType="INTEGER" property="type" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, NAME, BUY_PRICE, SEL_PRICE, SUPPLIER, STORE, TYPE
+  </sql>
+
+  <select id="selectByPrimaryKey"  parameterType="java.lang.Integer" resultMap="BaseResultMap" >
+    select
+    *
+    from goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByExample" parameterType="com.example.data.entity.GoodsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.example.data.entity.GoodsExample">
+    delete from goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.data.entity.Goods">
+    insert into goods (ID, NAME, BUY_PRICE, 
+      SEL_PRICE, SUPPLIER, STORE, 
+      TYPE)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{buyPrice,jdbcType=INTEGER}, 
+      #{selPrice,jdbcType=INTEGER}, #{supplier,jdbcType=INTEGER}, #{store,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.data.entity.Goods">
+    insert into goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="buyPrice != null">
+        BUY_PRICE,
+      </if>
+      <if test="selPrice != null">
+        SEL_PRICE,
+      </if>
+      <if test="supplier != null">
+        SUPPLIER,
+      </if>
+      <if test="store != null">
+        STORE,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="buyPrice != null">
+        #{buyPrice,jdbcType=INTEGER},
+      </if>
+      <if test="selPrice != null">
+        #{selPrice,jdbcType=INTEGER},
+      </if>
+      <if test="supplier != null">
+        #{supplier,jdbcType=INTEGER},
+      </if>
+      <if test="store != null">
+        #{store,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.data.entity.GoodsExample" resultType="java.lang.Integer">
+    select count(*) from goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update goods
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buyPrice != null">
+        BUY_PRICE = #{record.buyPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.selPrice != null">
+        SEL_PRICE = #{record.selPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.supplier != null">
+        SUPPLIER = #{record.supplier,jdbcType=INTEGER},
+      </if>
+      <if test="record.store != null">
+        STORE = #{record.store,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        TYPE = #{record.type,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update goods
+    set ID = #{record.id,jdbcType=INTEGER},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      BUY_PRICE = #{record.buyPrice,jdbcType=INTEGER},
+      SEL_PRICE = #{record.selPrice,jdbcType=INTEGER},
+      SUPPLIER = #{record.supplier,jdbcType=INTEGER},
+      STORE = #{record.store,jdbcType=INTEGER},
+      TYPE = #{record.type,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
